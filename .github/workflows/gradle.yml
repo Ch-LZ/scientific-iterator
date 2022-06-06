@@ -22,14 +22,10 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
+        cache: gradle # to save a little time
         
     - name: Build with gradle
     - uses: gradle/gradle-build-action@v1
       with:
         arguments: build --scan
-        
-#     - name: Archieve test report
-#       uses: actions/upload-artifact@v2
-#       with:
-#         name: Test report
-#         path: build/reports/tests/test
+
