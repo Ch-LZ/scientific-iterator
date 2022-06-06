@@ -1,8 +1,8 @@
-name: Simple CI
+name: CI
 
 on:
   push:
-    branches: [ "main", "dev", "actions_test" ]
+    branches: [ "main" ]
   pull_request:
     branches: [ "main", "dev" ]
 
