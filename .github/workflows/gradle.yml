@@ -24,7 +24,13 @@ jobs:
         distribution: 'adopt'
 
     - name: Run all tests
+      shell: bash
       run: ./gradlew check
+    
+    - name: Print output
+      id: print-output
+      run: |
+          echo "::set-output name="
       
     - name: Archieve test report
       if: always()
