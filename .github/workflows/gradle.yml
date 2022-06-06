@@ -25,9 +25,9 @@ jobs:
 
     - name: Run all tests
       run: ./gradlew check
-      continue-on-error: true
       
     - name: Archieve test report
+      if: failure() # if test fails report will be generated
       uses: actions/upload-artifact@v2
       with:
         name: Test report
