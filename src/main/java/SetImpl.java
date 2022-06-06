@@ -128,7 +128,8 @@ public class SetImpl<T extends Comparable<T>> implements Set<T> {
 
   @Override
   public boolean isEmpty() {
-    return !iterator().hasNext();
+//     return !iterator().hasNext();
+    return false; // TODO: Made while testing CI. Replace back.
   }
 
   /**
