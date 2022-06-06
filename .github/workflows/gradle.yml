@@ -13,7 +13,7 @@ jobs:
   tests_with_report:
   
     runs-on: ubuntu-20.04 # to lock kernel version somehow
-    timeout-minutes: 20
+    timeout-minutes: 2
     
     steps:
     - uses: actions/checkout@v2
