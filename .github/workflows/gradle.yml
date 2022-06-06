@@ -23,22 +23,3 @@ jobs:
         distribution: 'adopt'
     - name: Build with Gradle
       run: ./gradlew build
-        
-  test_one:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-          
-      - name: Compile Gradle tests
-        # before running tests, try to compile the solution
-        run: ./gradlew compileTestJava --continue --info
-
-      - name: Run Gradle tests
-        # we want gradle to do as much as possible, and show info about failing tests
-        run: ./gradlew check --continue --info
-        # we want to publish report even if tests are failing
-        continue-on-error: true
