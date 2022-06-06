@@ -39,7 +39,7 @@ jobs:
     steps:
       - uses: actions/setup-java@v2
         with:
-          java-version: '17'
+          java-version: '11'
           distribution: 'zulu'
           java-package: jdk
           cache: 'gradle'
