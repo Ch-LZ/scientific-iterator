@@ -13,7 +13,7 @@ jobs:
   tests_with_report:
   
     runs-on: ubuntu-20.04 # to lock kernel version somehow
-    timeout-minutes: 2
+    timeout-minutes: 20 #! doesn't show anby clue if exceeded
     
     steps:
     - uses: actions/checkout@v2
@@ -24,17 +24,17 @@ jobs:
         distribution: 'adopt'
 
     - name: Run all tests
-      shell: bash
       run: ./gradlew check
     
     - name: Print output
       id: print-output
-      run: |
-          echo "::set-output name="
+
       
     - name: Archieve test report
-      if: always()
+      if: always() # on fail, success but not on exceeding 'time-out-minutes'
       uses: actions/upload-artifact@v2
       with:
         name: Test report
         path: build/reports/tests/test
+
+
