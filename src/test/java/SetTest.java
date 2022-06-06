@@ -69,7 +69,7 @@ public class SetTest {
     assertTrue(set.isEmpty());
 
     set.add(3);
-    assertTrue(set.contains(2));
+    assertTrue(set.contains(3));
     assertFalse(set.isEmpty());
 
     set.remove(3);
