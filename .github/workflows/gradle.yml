@@ -21,6 +21,6 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
-        cashe: gradle # to save a little time
+        cache: gradle # to save a little time
     - name: Build with Gradle
       run: ./gradlew build
