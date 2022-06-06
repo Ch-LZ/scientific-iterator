@@ -16,16 +16,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: gradle/wrapper-validation-action@v1
     - name: Set up JDK 11
       uses: actions/setup-java@v2
       with:
-        java-version: '11'
+        java-version: 11
         distribution: 'adopt'
         cache: gradle # to save a little time
-        
-    - name: Build with gradle
-    - uses: gradle/gradle-build-action@v1
-      with:
-        arguments: build --scan
 
+    - name: Build with gradle
+      run: ./gradlew build
