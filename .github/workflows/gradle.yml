@@ -22,8 +22,10 @@ jobs:
         java-version: 11
         distribution: 'adopt'
 
-    - name: Build with gradle
-      run: ./gradlew build --scan --no-daemon
+#     - name: Build with gradle
+#       run: ./gradlew build --scan --no-daemon
+    - name: Test with gradle
+      run: ./gradlew check
     - name: Archieve test report
       uses: actions/upload-artifact@v2
       with:
