@@ -21,7 +21,6 @@ jobs:
       with:
         java-version: 11
         distribution: 'adopt'
-        cache: gradle # to save a little time
 
     - name: Build with gradle
-      run: ./gradlew build
+      run: ./gradlew build --scan
