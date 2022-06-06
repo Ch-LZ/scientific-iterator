@@ -21,5 +21,6 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
+        cashe: gradle
     - name: Build with Gradle
       run: ./gradlew build
