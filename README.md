@@ -1,3 +1,4 @@
+[![CI](https://github.com/Ch-LZ/Scinetific-iterator/actions/workflows/gradle.yml/badge.svg?branch=main)](https://github.com/Ch-LZ/Scinetific-iterator/actions/workflows/gradle.yml)
 # Scinetific-iterator
 
 
