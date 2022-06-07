@@ -1,8 +1,11 @@
-[![CI](https://github.com/Ch-LZ/Scinetific-iterator/actions/workflows/gradle.yml/badge.svg?branch=main)](https://github.com/Ch-LZ/Scinetific-iterator/actions/workflows/gradle.yml)
 # Scinetific-iterator
+[![CI](https://github.com/Ch-LZ/Scinetific-iterator/actions/workflows/gradle.yml/badge.svg?branch=main)](https://github.com/Ch-LZ/Scinetific-iterator/actions/workflows/gradle.yml)
+![Wait free impl badge](https://img.shields.io/badge/shapshot-wait--free-brightgreen)
+[![](https://tokei.rs/b1/github/Ch-LZ/Scinetific-iterator?category=code)](https://github.com/Ch-LZ/Scinetific-iterator)
+![GitHub repo size](https://img.shields.io/github/repo-size/Ch-LZ/Scinetific-iterator)
 
 
-# description
+# Description
 
 Wait-free snapshot-based iterator for concurrent list. Implemented for lock-free list according to the article.
 A lot of comments around the code contain (or consist of) pieces of the article.
@@ -24,7 +27,7 @@ A lot of comments around the code contain (or consist of) pieces of the article.
 А также логически пометить дополнительные операции в алгоритме lock-free множества.
 <p>
 
-# implementation notes
+# Implementation notes
 
 В хранилищах собираются не значения, а ссылки на узлы. Это необходимо, чтобы использовать их как уникальные
 идентификаторы,
@@ -32,7 +35,7 @@ A lot of comments around the code contain (or consist of) pieces of the article.
 
 Оптимизации (по признанию авторов небольшие) из параграфа 5.2 статьи в реализации отсутствуют.
 
-# sources
+# Sources
 
 - lock-free set algorythm is implemented according to the book \
   Herlihy M., Shavit N. The Art of Multiprocessor Programming (220 - 226)
