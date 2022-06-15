@@ -22,6 +22,8 @@ public class ScannerStorage<M extends Comparable<M>> extends GenericStorage<Node
   }
 
   /**
+   * Optimized for sorted linked-list set.
+   * 
    * For set implementation, based on sorted lock-free linked list.
    * Owing to optimization this method should intentionally fail to add {@param node}
    * if it's value is not greater than value of last added node.
