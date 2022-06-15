@@ -1,6 +1,6 @@
-package SnapCollectorDetails;
+package snapcollector;
 
-import utils.Node;
+import set.Node;
 
 import java.util.Iterator;
 
@@ -8,8 +8,8 @@ public abstract class SnapCollector<T> {
   /**
    * Returns true if deactivate() method has not been called, and false otherwise.
    *
-   * <p>True value means the scanning is still ongoing and further references might still be added in the
-   * snapshot object.
+   * True value means the scanning is still ongoing
+   * and further references might still be added in the snapshot object.
    */
   abstract boolean isActive();
 
@@ -34,10 +34,10 @@ public abstract class SnapCollector<T> {
   /**
    * Required to synchronize between multiple iterators.
    *
-   * <p>After this method is completed, any further calls to addNode will do nothing. Calls to addNode
+   * After this method is completed, any further calls to addNode will do nothing. Calls to addNode
    * concurrent with blockFurtherNodes may fail or succeed arbitrarily.
    *
-   * <p>Similarly to blockFurtherReports inserts a dummy via CAS to the end of list.
+   * Similarly to blockFurtherReports inserts a dummy via CAS to the end of list.
    * The success of this CAS need not be checked by implementation:
    * after being closed, either lastDummyNode is inserted or only one last added node.
    */
@@ -47,10 +47,10 @@ public abstract class SnapCollector<T> {
    * Required to synchronize between multiple iterators.
    * This method should only be invoked after the execution of the Deactivate method is completed.
    *
-   * <p>After this method is competed, any further calls to report will do nothing. Calls to report
+   * After this method is competed, any further calls to report will do nothing. Calls to report
    * concurrent with blockFurtherReports may succeed or fail arbitrarily.
    *
-   * <p>This method goes over all the threads local linked-lists of reports, instead it goes to only one storage,
+   * This method goes over all the threads local linked-lists of reports, instead it goes to only one storage,
    * and attempts by a CAS to add a special dummy report at the end to block further addition of reports.
    *
    * The success of this CAS need not be checked. If the CAS succeeds, no further reports can be added to this list,

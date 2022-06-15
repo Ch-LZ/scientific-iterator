@@ -1,6 +1,6 @@
-package SnapCollectorDetails;
+package snapcollector;
 
-import utils.Node;
+import set.Node;
 
 import java.util.Iterator;
 

@@ -1,3 +1,5 @@
+package set;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.kotlinx.lincheck.*;
 import org.jetbrains.kotlinx.lincheck.annotations.Operation;
@@ -8,7 +10,6 @@ import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.ModelChecki
 import org.jetbrains.kotlinx.lincheck.strategy.stress.StressCTestConfiguration;
 import org.jetbrains.kotlinx.lincheck.strategy.stress.StressOptions;
 import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;

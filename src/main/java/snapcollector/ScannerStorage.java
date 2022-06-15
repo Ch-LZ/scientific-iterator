@@ -1,22 +1,14 @@
-package SnapCollectorDetails;
+package snapcollector;
 
-import utils.Node;
+import set.Node;
 
 import java.util.Iterator;
 
 /**
- * Хранит отсканированные узлы. Отвечает за wait-free сканирование множества.
- * Вся содержательная логика в родительском классе.
+ * Stores scanned nodes. Provides wait-freedom for scanning.
  */
 public class ScannerStorage<M extends Comparable<M>> extends GenericStorage<Node<M>> implements Iterable<Node<M>> {
 
-  /**
-   * Concurrent set implementation is based on sorted lock-free linked list.
-   * Owing to optimization this method should intentionally fail to add {@param node}
-   * if it's value is not greater than value of last added node.
-   * <p>
-   * The simplest way to achieve this is to re-write oneTryPut with very slight changes in it.
-   */
 
   public Node<M> append(Node<M> node) {
     if (node == null || node.getValue() == null) throw new NullPointerException("Attempt to add null node or value");
@@ -30,9 +22,16 @@ public class ScannerStorage<M extends Comparable<M>> extends GenericStorage<Node
   }
 
   /**
-   * Return whether nodeToAdd wasn't inserted and another attempt is required.
+   * Optimized for sorted linked-list set.
+   * 
+   * For set implementation, based on sorted lock-free linked list.
+   * Owing to optimization this method should intentionally fail to add {@param node}
+   * if it's value is not greater than value of last added node.
+   *
+   * The simplest way to achieve this is to re-write {@link oneTryPut} with very slight changes in it.
    *
    * @param nodeToAdd should be nonNull similar to it's value
+   * @return whether nodeToAdd wasn't inserted and another attempt is required.
    */
   private boolean oneTryPutOrdered(Node<M> nodeToAdd) {
     StorageNode<Node<M>> tailNode = tail.get();
@@ -54,7 +53,7 @@ public class ScannerStorage<M extends Comparable<M>> extends GenericStorage<Node
       if (tailNode.next.compareAndSet(null, candidateToStore)) {
         tail.compareAndSet(tailNode, candidateToStore);
         return false; // was inserted no more needs of insertion
-      } // if cas fails, the need still remaining
+      } // if the cas fails, the need still remaining
     }
     return needToAdd;
   }

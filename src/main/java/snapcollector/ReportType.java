@@ -1,4 +1,4 @@
-package SnapCollectorDetails;
+package snapcollector;
 
 public enum ReportType {
   INSERTED,

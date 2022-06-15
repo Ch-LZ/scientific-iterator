@@ -1,22 +1,27 @@
-package SnapCollectorDetails;
+package snapcollector;
 
 import java.util.Collections;
 import java.util.Iterator;
 
-class ReportStorage2D<R> extends GenericStorage<ReportStorage<R>> implements Iterable<ReportStorage<R>> {
+/**
+ * Helping class to manage many {@link ReportStorage} from threads simultaniously.
+ *
+ * @param <R> type of element stored with report.
+ */
+class ReportStorageManager<R> extends GenericStorage<ReportStorage<R>> implements Iterable<ReportStorage<R>> {
   @Override
   public Iterator<ReportStorage<R>> iterator() {
     return super.iterator();
   }
 
   Iterator<Report<R>> readReports() {
-    return new ReportStorage2dIterator();
+    return new ReportStoragesIterator();
   }
 
-  private class ReportStorage2dIterator implements Iterator<Report<R>>{
+  private class ReportStoragesIterator implements Iterator<Report<R>>{
     private final Iterator<ReportStorage<R>> it2D;
     private Iterator<Report<R>> it1D;
-    ReportStorage2dIterator() {
+    ReportStoragesIterator() {
       it2D = iterator();
       it1D = Collections.emptyIterator();
     }

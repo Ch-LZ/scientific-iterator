@@ -1,8 +1,8 @@
-import SnapCollectorDetails.SnapCollector;
-import SnapCollectorDetails.SnapCollectorDummy;
-import SnapCollectorDetails.SnapCollectorImpl;
-import SnapCollectorDetails.SnapshotManager;
-import utils.Node;
+package set;
+
+import snapcollector.SnapCollector;
+import snapcollector.SnapCollectorDummy;
+import snapcollector.SnapshotManager;
 import utils.Pair;
 
 import java.util.Iterator;
@@ -60,11 +60,14 @@ public class SetImpl<T extends Comparable<T>> implements Set<T> {
       } else {
         Node<T> successor = current.getNextAndMark().getReference();
         /* logical deletion of current */
-        boolean logicallyDeleted = current.getNextAndMark().compareAndSet(successor, successor, false, true);
+        boolean logicallyDeleted =
+            current.getNextAndMark().compareAndSet(successor, successor, false, true);
         if (!logicallyDeleted) continue;
 
-        /* Removing should be reported before physical deletion, as a result if node is no longer in the list,
-         it is guaranteed to have been reported as deleted. */
+        /*
+         * Removing should be reported before physical deletion, as a result if node is no longer in
+         * the list, it is guaranteed to have been reported as deleted.
+         */
         SnapshotManager.reportRemove(current, currSnapCollectorRef);
         /* physical deletion */
         previous.getNextAndMark().compareAndSet(current, successor, false, false);
@@ -100,22 +103,23 @@ public class SetImpl<T extends Comparable<T>> implements Set<T> {
    * Находит наиболее подходящее место для нового узла с value в сортированном возрастанию списке.
    */
   private Pair<Node<T>, Node<T>> find(T value) {
-    retry:
+    retry: 
     while (true) {
       Node<T> previous = head;
       Node<T> current = previous.getNextAndMark().getReference();
       while (true) {
-        while (current != null && current.getNextAndMark().isMarked()) { // helping as much as possible
+        // helping as much as possible
+        while (current != null && current.getNextAndMark().isMarked()) {
           /* Helping with deletion. Before physical deletion the node has to be reported as deleted. */
           SnapshotManager.reportRemove(current, currSnapCollectorRef);
           Node<T> successor = current.getNextAndMark().getReference();
           boolean helped = /* delete physically */
-              previous.getNextAndMark()
-                  .compareAndSet(current, successor, false, false);
+              previous.getNextAndMark().compareAndSet(current, successor, false, false);
           if (!helped) continue retry;
           current = successor;
         }
-        if (current == null) return new Pair<>(previous, null);
+        if (current == null)
+          return new Pair<>(previous, null);
 
         if ((!(current == head)) && current.getValue().compareTo(value) >= 0) {
           return new Pair<>(previous, current); /* Insertion report is redundant */

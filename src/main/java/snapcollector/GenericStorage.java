@@ -1,4 +1,4 @@
-package SnapCollectorDetails;
+package snapcollector;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -7,8 +7,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 
 /**
- * Реализует логику работы очереди Майкла Скотта при добавлении. Дополнена возможностью закрытия
- * специальным узлом lastDummyNode.
+ * Partical implementation of Michael Scott queue
+ * with additional property of closing for further additions.
  */
 abstract class GenericStorage<N> {
   protected AtomicBoolean closed;
@@ -18,8 +18,8 @@ abstract class GenericStorage<N> {
   protected static final StorageNode lastDummyNode = new StorageNode<>(null);
 
   /**
-   * Collecting nodes with their values. Collecting nodes instead of values is essential for
-   * correctness of algorithm
+   * Collecting nodes with their values.
+   * Collecting nodes instead of values is essential for correctness of the algorithm.
    */
   protected static class StorageNode<N> {
     public final N storedItem;
@@ -65,15 +65,17 @@ abstract class GenericStorage<N> {
 
   /**
    * TestOnly
-   * <p>
+   *
    * Designed to single-thread tests only.
    */
   public N peekLastEnqueuedUnsafe() {
     return tail.get().storedItem;
   }
 
+  /**
+   * Insert dummy node, ensuring that at least one thread has put a dummy
+   */
   protected void close() {
-    /* insert dummy node, ensuring that at least one thread has put a dummy */
     closed.set(true);
     oneTryPut(lastDummyNode);
   }
@@ -93,11 +95,15 @@ abstract class GenericStorage<N> {
 
 
   protected Iterator<N> iterator() {
-    if (isOpened())
+    if (isOpened()) {
       throw new IllegalStateException("Implementation error. Attempt to begin iteration over open storage.");
+    }
     return new StorageIterator();
   }
 
+  /**
+   * Iterator over the storage. Should be called only on closed storage.
+   */
   protected class StorageIterator implements Iterator<N> {
     StorageIterator() {
       curr = head.get().next.get();
