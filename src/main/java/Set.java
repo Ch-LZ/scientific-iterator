@@ -5,55 +5,53 @@
  */
 public interface Set<T extends Comparable<T>> {
   /**
-   * Добавить ключ к множеству
+   * Add value in set
    *
-   * Алгоритм должен быть как минимум lock-free
+   * At least lock-free.
    *
-   * @param value значение ключа
-   * @return false если value уже существует в множестве, true если элемент был добавлен
+   * @param value
+   * @return false if value is already exist in set, true if value was added successfully.
    */
   boolean add(T value);
   
 
 
   /**
-   * Удалить ключ из множества
+   * Remove value from set.
    *
-   * Алгоритм должен быть как минимум lock-free
+   * At least lock-free.
    *
-   * @param value значение ключа
-   * @return false если ключ не был найден, true если ключ успешно удален
+   * @param value
+   * @return false if value was not found in set, true if value was successfully removed.
    */
   boolean remove(T value);
 
 
   /**
-   * Проверка наличия ключа в множестве
+   * Checking if the value exist in set.
    *
-   * Алгоритм должен быть как минимум wait-free для типов конечной размерноости и lock-free для
-   * остальных
+   * At least wait-free for types of finite size, lock-free for others.
    *
-   * @param value значение ключа
-   * @return true если элемент содержится в множестве, иначе - false
+   * @param value
+   * @return true if element was found, false overwise.
    */
   boolean contains(T value);
 
   /**
-   * Проверка множества на пустоту
+   * Checking if set is empty.
    *
-   * Алгоритм должен быть как минимум lock-free
+   * At least lock-free
    *
-   * @return true если множество пусто, иначе - false
+   * @return true if set is empty, false overwise.
    */
   boolean isEmpty();
 
   /**
-   * Возвращает lock-free итератор для множества
+   * Provide at least lock-free iterator for set.
    *
-   * Итератор должен быть линеаризуем в терминах представления когда-либо существовавшего вместе
-   * набора элементов
+   * Iterator should be linearizable in terms of providing a set of elements that has ever existed.
    *
-   * @return итератор для множества
+   * @return iterator on set without remove operation
    */
   java.util.Iterator<T> iterator();
 }
