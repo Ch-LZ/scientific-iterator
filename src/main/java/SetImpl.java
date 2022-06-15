@@ -97,7 +97,7 @@ public class SetImpl<T extends Comparable<T>> implements Set<T> {
   }
 
   /**
-   * Находит наиболее подходящее место для нового узла с value в сортированном возрастанию списке.
+   * Looking for the most sutable place for new value in sorted list.
    */
   private Pair<Node<T>, Node<T>> find(T value) {
     retry:
@@ -105,7 +105,7 @@ public class SetImpl<T extends Comparable<T>> implements Set<T> {
       Node<T> previous = head;
       Node<T> current = previous.getNextAndMark().getReference();
       while (true) {
-        while (current != null && current.getNextAndMark().isMarked()) { // helping as much as possible
+        while (current != null && current.getNextAndMark().isMarked()) { /*  helping as much as possible */
           /* Helping with deletion. Before physical deletion the node has to be reported as deleted. */
           SnapshotManager.reportRemove(current, currSnapCollectorRef);
           Node<T> successor = current.getNextAndMark().getReference();
@@ -132,7 +132,7 @@ public class SetImpl<T extends Comparable<T>> implements Set<T> {
   }
 
   /**
-   * wait-free
+   * Provides wait-free iterator.
    */
   @Override
   public Iterator<T> iterator() {
