@@ -83,7 +83,6 @@ public class SnapshotManager {
         break;
       }
 
-      //TODO: the only lock-free list specific line.
       current = current.getNextAndMark().getReference();
     }
     sc.blockFurtherReports();
