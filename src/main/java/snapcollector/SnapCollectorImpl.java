@@ -1,4 +1,4 @@
-package SnapCollectorDetails;
+package snapcollector;
 
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -9,7 +9,7 @@ public class SnapCollectorImpl<T extends Comparable<T>> extends SnapCollector<T>
   private final AtomicBoolean ongoingScan; // indicates if it is closed
   private final ThreadLocal<Boolean> wasRegistered;  // is expected to be deleted with SnapCollector
   private final ThreadLocal<ReportStorage<T>> reportsStorage; // is expected to be deleted with SnapCollector
-  private ReportStorage2D<T> thredLocalMap;
+  private ReportStorageManager<T> thredLocalMap;
   private final ScannerStorage<T> scannerStorage;
 
   public SnapCollectorImpl() {
@@ -17,7 +17,7 @@ public class SnapCollectorImpl<T extends Comparable<T>> extends SnapCollector<T>
     wasRegistered = ThreadLocal.withInitial(() -> false);
     reportsStorage = ThreadLocal.withInitial(ReportStorage::new);
     scannerStorage = new ScannerStorage<T>();
-    thredLocalMap = new ReportStorage2D<>();
+    thredLocalMap = new ReportStorageManager<>();
   }
 
   @Override

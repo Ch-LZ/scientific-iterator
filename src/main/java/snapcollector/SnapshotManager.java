@@ -1,4 +1,4 @@
-package SnapCollectorDetails;
+package snapcollector;
 
 import utils.Node;
 import utils.Pair;
@@ -7,14 +7,16 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static SnapCollectorDetails.ReportType.DELETED;
-import static SnapCollectorDetails.ReportType.INSERTED;
+import static snapcollector.ReportType.DELETED;
+import static snapcollector.ReportType.INSERTED;
 
+/**
+ * Initnally implemented aspecially for lock-free linked list based set.
+ *
+ * Require from
+ */
 public class SnapshotManager {
-  /**
-   * Метод для SetImpl для добавления репортов об удалении узла victim
-   * в текущий SnapCollector, связанный с атомарной ссылкой currSnapCollectorRef.
-   */
+
   public static <T extends Comparable<T>> void reportRemove(Node<T> victim, AtomicReference<SnapCollector<T>> currSnapCollectorRef) {
     SnapCollector<T> sc = currSnapCollectorRef.getAcquire();
     if (sc.isActive()) {
@@ -22,10 +24,6 @@ public class SnapshotManager {
     }
   }
 
-  /**
-   * Метод для SetImpl для добавления репортов о добавлении узла newNode
-   * в текущий SnapCollector, связанный с атомарной ссылкой currSnapCollectorRef.
-   */
   public static <T extends Comparable<T>> void reportAdd(Node<T> newNode, AtomicReference<SnapCollector<T>> currSnapCollectorRef) {
     SnapCollector<T> sc = currSnapCollectorRef.getAcquire();
     /* isMarked must be checked to prevent false-add reporting about already marked nodes. */
@@ -35,7 +33,7 @@ public class SnapshotManager {
   }
 
   /**
-   * Снимает согласованный и актуальный снапшот конкурентного множества.
+   * Scan consistent snspshot.
    */
   public static <T extends Comparable<T>> HashSet<T> scanSnapshot(Node<T> head, AtomicReference<SnapCollector<T>> currSnapCollectorRef) {
     SnapCollector<T> sc = acquireSnapCollector(currSnapCollectorRef);
@@ -44,7 +42,7 @@ public class SnapshotManager {
   }
 
   /**
-   * Получает локальную копию ссылки на рабочий SnapCollector или создаёт новую если необходимо.
+   * Get local copy of currSnapCollectorRef or create a new one.
    */
   private static <T extends Comparable<T>> SnapCollector<T> acquireSnapCollector(AtomicReference<SnapCollector<T>> currSnapCollectorRef) {
     SnapCollector<T> sc = currSnapCollectorRef.get();
@@ -67,7 +65,7 @@ public class SnapshotManager {
   }
 
   /**
-   * Управляет SnapCollector'ом в процессе снятия снапшота и его валидации.
+   * Walk through the list of nodes and stores them. Support many threads.
    */
   private static <T extends Comparable<T>> void collectSnapshot(SnapCollector<T> sc, Node<T> head) {
     Node<T> current = head.getNextAndMark().getReference();
@@ -84,6 +82,8 @@ public class SnapshotManager {
         sc.deactivate();
         break;
       }
+
+      //TODO: the only lock-free list specific line.
       current = current.getNextAndMark().getReference();
     }
     sc.blockFurtherReports();

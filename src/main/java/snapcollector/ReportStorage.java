@@ -1,12 +1,13 @@
-package SnapCollectorDetails;
+package snapcollector;
 
 import utils.Node;
 
 import java.util.Iterator;
 
 /**
- * Хранит предоставленные отчёты. Отвечает за lock-free сбор report'ов c потоков-писателей.
- * Вся содержательная логика в родительском классе.
+ * Intended to be thread-local. Can be closed by other threads.
+ *
+ * Stores reports. Deligate all lock-free logic to parent.
  */
 class ReportStorage<R> extends GenericStorage<Report<R>> implements Iterable<Report<R>> {
 

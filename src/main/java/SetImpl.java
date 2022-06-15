@@ -1,7 +1,6 @@
-import SnapCollectorDetails.SnapCollector;
-import SnapCollectorDetails.SnapCollectorDummy;
-import SnapCollectorDetails.SnapCollectorImpl;
-import SnapCollectorDetails.SnapshotManager;
+import snapcollector.SnapCollector;
+import snapcollector.SnapCollectorDummy;
+import snapcollector.SnapshotManager;
 import utils.Node;
 import utils.Pair;
 
@@ -60,11 +59,15 @@ public class SetImpl<T extends Comparable<T>> implements Set<T> {
       } else {
         Node<T> successor = current.getNextAndMark().getReference();
         /* logical deletion of current */
-        boolean logicallyDeleted = current.getNextAndMark().compareAndSet(successor, successor, false, true);
-        if (!logicallyDeleted) continue;
+        boolean logicallyDeleted =
+            current.getNextAndMark().compareAndSet(successor, successor, false, true);
+        if (!logicallyDeleted)
+          continue;
 
-        /* Removing should be reported before physical deletion, as a result if node is no longer in the list,
-         it is guaranteed to have been reported as deleted. */
+        /*
+         * Removing should be reported before physical deletion, as a result if node is no longer in
+         * the list, it is guaranteed to have been reported as deleted.
+         */
         SnapshotManager.reportRemove(current, currSnapCollectorRef);
         /* physical deletion */
         previous.getNextAndMark().compareAndSet(current, successor, false, false);
@@ -83,7 +86,8 @@ public class SetImpl<T extends Comparable<T>> implements Set<T> {
       curr = curr.getNextAndMark().getReference();
     }
     /* if was not found, no report needed */
-    if (curr == null) return false;
+    if (curr == null)
+      return false;
 
     /* was found bearing a deleted mark -> a supporting report should be provided */
     if (curr.getNextAndMark().isMarked()) {
@@ -97,25 +101,28 @@ public class SetImpl<T extends Comparable<T>> implements Set<T> {
   }
 
   /**
-   * Looking for the most sutable place for new value in sorted list.
+   * Находит наиболее подходящее место для нового узла с value в сортированном возрастанию списке.
    */
   private Pair<Node<T>, Node<T>> find(T value) {
-    retry:
-    while (true) {
+    retry: while (true) {
       Node<T> previous = head;
       Node<T> current = previous.getNextAndMark().getReference();
       while (true) {
-        while (current != null && current.getNextAndMark().isMarked()) { /*  helping as much as possible */
-          /* Helping with deletion. Before physical deletion the node has to be reported as deleted. */
+        while (current != null && current.getNextAndMark().isMarked()) { // helping as much as
+                                                                         // possible
+          /*
+           * Helping with deletion. Before physical deletion the node has to be reported as deleted.
+           */
           SnapshotManager.reportRemove(current, currSnapCollectorRef);
           Node<T> successor = current.getNextAndMark().getReference();
           boolean helped = /* delete physically */
-              previous.getNextAndMark()
-                  .compareAndSet(current, successor, false, false);
-          if (!helped) continue retry;
+              previous.getNextAndMark().compareAndSet(current, successor, false, false);
+          if (!helped)
+            continue retry;
           current = successor;
         }
-        if (current == null) return new Pair<>(previous, null);
+        if (current == null)
+          return new Pair<>(previous, null);
 
         if ((!(current == head)) && current.getValue().compareTo(value) >= 0) {
           return new Pair<>(previous, current); /* Insertion report is redundant */
@@ -132,7 +139,7 @@ public class SetImpl<T extends Comparable<T>> implements Set<T> {
   }
 
   /**
-   * Provides wait-free iterator.
+   * wait-free
    */
   @Override
   public Iterator<T> iterator() {

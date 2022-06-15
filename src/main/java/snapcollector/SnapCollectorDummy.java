@@ -1,4 +1,4 @@
-package SnapCollectorDetails;
+package snapcollector;
 
 import utils.Node;
 
