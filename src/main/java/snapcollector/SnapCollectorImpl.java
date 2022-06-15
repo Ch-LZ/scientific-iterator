@@ -1,9 +1,9 @@
 package snapcollector;
 
+import set.Node;
+
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import utils.Node;
 
 public class SnapCollectorImpl<T extends Comparable<T>> extends SnapCollector<T> {
   private final AtomicBoolean ongoingScan; // indicates if it is closed

@@ -1,7 +1,8 @@
+package set;
+
 import snapcollector.SnapCollector;
 import snapcollector.SnapCollectorDummy;
 import snapcollector.SnapshotManager;
-import utils.Node;
 import utils.Pair;
 
 import java.util.Iterator;

@@ -1,12 +1,11 @@
 package snapcollector;
 
-import utils.Node;
+import set.Node;
 import utils.Pair;
 
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicReference;
-
 import static snapcollector.ReportType.DELETED;
 import static snapcollector.ReportType.INSERTED;
 

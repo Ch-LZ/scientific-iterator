@@ -1,3 +1,5 @@
+package set;
+
 /**
  * Lock-Free множество.
  * 
